@@ -1,14 +1,8 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
+import { SuperAdminEntity } from "../type";
+import { ModelName } from "./ModelName";
 
-interface AdminInterface {
-  userId : Types.ObjectId,
-  universityId : Types.ObjectId,
-  designation : string,
-  state : number,
-  stateCode : number
-}
-
-const AdminSchema = new Schema<AdminInterface>({
+const SuperAdminModelEntity = new Schema<SuperAdminEntity>({
     userId: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -33,4 +27,5 @@ const AdminSchema = new Schema<AdminInterface>({
     }
 })
 
-module.exports = model("SuperAdmins",AdminSchema);
+module.exports = model<SuperAdminEntity>(ModelName.SuperAdmin,SuperAdminModelEntity);
+

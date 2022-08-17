@@ -1,17 +1,8 @@
 import { Schema, model } from "mongoose";
+import { UserEntity } from "../type";
+import { ModelName } from "./ModelName";
 
-interface UserInterface {
-  role: number;
-  name: string;
-  email: string,
-  password: string,
-  avatar? : string,
-  phone: string,
-  address : string,
-  dateOfBirth : Date
-}
-
-const UserSchema = new Schema<UserInterface>({
+const UserModelEntity = new Schema<UserEntity>({
     role: {
         type: Number,
         required: true
@@ -46,4 +37,4 @@ const UserSchema = new Schema<UserInterface>({
 
 })
 
-module.exports = model("Users",UserSchema);
+module.exports = model<UserEntity>(ModelName.User,UserModelEntity);

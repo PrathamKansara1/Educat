@@ -1,20 +1,8 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, } from "mongoose";
+import { LectureEntity } from "../type";
+import { ModelName } from "./ModelName";
 
-interface LectureInterface {
-  collegeId: Types.ObjectId;
-  courseId: Types.ObjectId;
-  facultyId: Types.ObjectId;
-  subjectName: string;
-  joinStudents: [];
-  enrollStudents: [];
-  lectureStartTime: Date;
-  lectureEndTime: Date;
-  reschedule: boolean;
-  state: number;
-  stateCode: number;
-}
-
-const LectureSchema = new Schema<LectureInterface>({
+const LectureModelEntity = new Schema<LectureEntity>({
   collegeId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -64,4 +52,4 @@ const LectureSchema = new Schema<LectureInterface>({
   },
 });
 
-module.exports = model("Courses", LectureSchema);
+module.exports = model<LectureEntity>(ModelName.Lecture, LectureModelEntity);

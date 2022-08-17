@@ -1,17 +1,8 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
+import { UniversityEntity } from "../type";
+import { ModelName } from "./ModelName";
 
-interface UniversityInterface {
-  adminId: Types.ObjectId;
-  universityName: string;
-  state_: string;
-  email: string;
-  website: string;
-  colleges: [];
-  state: number;
-  stateCode: number;
-}
-
-const UniversitySchema = new Schema<UniversityInterface>({
+const UniversityModelEntity = new Schema<UniversityEntity>({
   adminId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -47,4 +38,4 @@ const UniversitySchema = new Schema<UniversityInterface>({
   }
 });
 
-module.exports = model("Universities", UniversitySchema);
+module.exports = model<UniversityEntity>(ModelName.University, UniversityModelEntity);

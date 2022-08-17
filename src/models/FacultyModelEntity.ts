@@ -1,21 +1,8 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
+import { FacultyEntity } from "../type";
+import { ModelName } from "./ModelName";
 
-interface FacultyInterface {
-  userId: Types.ObjectId;
-  universityId: Types.ObjectId;
-  collegeId: Types.ObjectId;
-  qualification: [];
-  permanentAddress: string;
-  workingBranch: [];
-  workingCourse: [];
-  subjects: [];
-  experience: string;
-  dateOfBirth: string;
-  state: number;
-  stateCode: number;
-}
-
-const FacultySchema = new Schema<FacultyInterface>({
+const FacultyModelEntity = new Schema<FacultyEntity>({
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -55,6 +42,10 @@ const FacultySchema = new Schema<FacultyInterface>({
     type: String,
     required: true,
   },
+  dateOfBirth : {
+    type: Date,
+    required : true
+  },
   state: {
     type: Number,
     required: true,
@@ -65,4 +56,4 @@ const FacultySchema = new Schema<FacultyInterface>({
   },
 });
 
-module.exports = model("Faculties", FacultySchema);
+module.exports = model<FacultyEntity>(ModelName.Faculty, FacultyModelEntity);

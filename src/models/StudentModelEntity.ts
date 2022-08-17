@@ -1,23 +1,8 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
+import { StudentEntity } from "../type";
+import { ModelName } from "./ModelName";
 
-interface StudentInterface {
-  userId: Types.ObjectId;
-  universityId: Types.ObjectId;
-  collegeId: Types.ObjectId;
-  courseId: Types.ObjectId;
-  fatherName: string;
-  motherName: string;
-  permanentAddress: string;
-  avatar?: string, 
-  enrollmentNumber: number;
-  currentStream: string;
-  currentSemester: number;
-  previousDetail: [];
-  state: number;
-  stateCode: number;
-}
-
-const StudentSchema = new Schema<StudentInterface>({
+const StudentModelEntity = new Schema<StudentEntity>({
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -79,4 +64,4 @@ const StudentSchema = new Schema<StudentInterface>({
   },
 });
 
-module.exports = model("Students", StudentSchema);
+module.exports = model<StudentEntity>(ModelName.Student, StudentModelEntity);

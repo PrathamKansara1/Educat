@@ -1,16 +1,21 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
-import { connection } from "./db/db";
+import { connectMongoDb } from "./src/db";
 
 dotenv.config();
-connection();
+connectMongoDb();
 
 const app: Express = express();
 const port = process.env.PORT;
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routes
+// import admin = require('./routes/adminRoute');
+
+// app.use("/api/v1",admin);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello Pratham");
