@@ -23,6 +23,10 @@ const StudentModelEntity = new Schema<StudentEntity>({
     required: true,
     ref: "Courses",
   },
+  email: {
+    type: String,
+    required: true
+  },
   fatherName: {
     type: String,
     required: true,

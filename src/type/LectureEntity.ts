@@ -12,3 +12,7 @@ export interface LectureEntity extends BaseEntity {
   lectureEndTime: Date;
   reschedule: boolean;
 }
+
+export type addLecturePayload = Omit<LectureEntity, 'facultyId' | 'courseId' | 'collegeId'>;
+
+export type UpdateLecturePayload = Partial<addLecturePayload>;

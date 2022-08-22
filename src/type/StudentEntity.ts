@@ -6,6 +6,7 @@ export interface StudentEntity extends BaseEntity{
   universityId: Types.ObjectId;
   collegeId: Types.ObjectId;
   courseId: Types.ObjectId;
+  email: string;
   fatherName: string;
   motherName: string;
   permanentAddress: string;
@@ -15,3 +16,7 @@ export interface StudentEntity extends BaseEntity{
   currentSemester: number;
   previousDetail: [];
 }
+
+export type AddStudentPayload = Omit<StudentEntity, 'userId' | 'universityId' | 'collegeId' | 'courseId'>;
+
+export type UpdateStudentPayload = Partial<AddStudentPayload>;
