@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { UserEntity } from "../type";
-import { ModelName } from "./ModelName";
+import { modelName } from "./modelName";
 
 const UserModelEntity = new Schema<UserEntity>({
     role: {
@@ -37,4 +37,4 @@ const UserModelEntity = new Schema<UserEntity>({
 
 })
 
-module.exports = model<UserEntity>(ModelName.User,UserModelEntity);
+export default model<UserEntity>(modelName.User,UserModelEntity);

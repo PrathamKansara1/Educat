@@ -13,9 +13,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-// import admin = require('./routes/adminRoute');
-
-// app.use("/api/v1",admin);
+import {CollegeRoutes} from './src/routes'
+app.use("/api/v1",CollegeRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello Pratham");

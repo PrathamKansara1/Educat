@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { SuperAdminEntity } from "../type";
-import { ModelName } from "./ModelName";
+import { modelName } from "./modelName";
 
 const SuperAdminModelEntity = new Schema<SuperAdminEntity>({
     userId: {
@@ -27,5 +27,5 @@ const SuperAdminModelEntity = new Schema<SuperAdminEntity>({
     }
 })
 
-module.exports = model<SuperAdminEntity>(ModelName.SuperAdmin,SuperAdminModelEntity);
+export default model<SuperAdminEntity>(modelName.Superadmin,SuperAdminModelEntity);
 

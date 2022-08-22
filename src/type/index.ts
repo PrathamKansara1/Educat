@@ -1,3 +1,4 @@
+export * from './BaseEntity'
 export * from './CollegeEntity'
 export * from './CourseEntity'
 export * from './FacultyEntity'

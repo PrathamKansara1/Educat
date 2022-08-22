@@ -1,0 +1,8 @@
+export {default as CollegeModelEntity} from './CollegeModelEntity'
+export {default as CourseModelEntity} from './CourseModelEntity'
+export {default as FacultyModelEntity} from './FacultyModelEntity'
+export {default as LectureModelEntity} from './LectureModelEntity'
+export {default as StudentModelEntity} from './StudentModelEntity'
+export {default as SuperAdminModelEntity} from './SuperAdminModelEntity'
+export {default as UniversityModelEntity} from './UniversityModelEntity'
+export {default as UserModelEntity} from './UserModelEntity'

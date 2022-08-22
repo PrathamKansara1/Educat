@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { FacultyEntity } from "../type";
-import { ModelName } from "./ModelName";
+import { modelName } from "./modelName";
 
 const FacultyModelEntity = new Schema<FacultyEntity>({
   userId: {
@@ -17,6 +17,10 @@ const FacultyModelEntity = new Schema<FacultyEntity>({
     type: Schema.Types.ObjectId,
     required: true,
     ref: "Colleges",
+  },
+  email: {
+    type: String,
+    required: true,
   },
   qualification: {
     type: [],
@@ -42,9 +46,9 @@ const FacultyModelEntity = new Schema<FacultyEntity>({
     type: String,
     required: true,
   },
-  dateOfBirth : {
+  dateOfBirth: {
     type: Date,
-    required : true
+    required: true,
   },
   state: {
     type: Number,
@@ -56,4 +60,4 @@ const FacultyModelEntity = new Schema<FacultyEntity>({
   },
 });
 
-module.exports = model<FacultyEntity>(ModelName.Faculty, FacultyModelEntity);
+export default model<FacultyEntity>(modelName.Faculty, FacultyModelEntity);

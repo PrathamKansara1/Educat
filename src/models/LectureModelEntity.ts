@@ -1,6 +1,6 @@
 import { Schema, model, } from "mongoose";
 import { LectureEntity } from "../type";
-import { ModelName } from "./ModelName";
+import { modelName } from "./modelName";
 
 const LectureModelEntity = new Schema<LectureEntity>({
   collegeId: {
@@ -52,4 +52,4 @@ const LectureModelEntity = new Schema<LectureEntity>({
   },
 });
 
-module.exports = model<LectureEntity>(ModelName.Lecture, LectureModelEntity);
+export default model<LectureEntity>(modelName.Lecture, LectureModelEntity);

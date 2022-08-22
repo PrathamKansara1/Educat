@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { StudentEntity } from "../type";
-import { ModelName } from "./ModelName";
+import { modelName } from "./modelName";
 
 const StudentModelEntity = new Schema<StudentEntity>({
   userId: {
@@ -64,4 +64,4 @@ const StudentModelEntity = new Schema<StudentEntity>({
   },
 });
 
-module.exports = model<StudentEntity>(ModelName.Student, StudentModelEntity);
+export default model<StudentEntity>(modelName.Student, StudentModelEntity);

@@ -1,10 +1,10 @@
-export enum ModelName {
+export enum modelName {
     College = "College",
     Course = "Course",
     Faculty = "Faculty",
     Lecture = "Lecture",
     Student = "Student",
-    SuperAdmin = "SuperAdmin",
+    Superadmin = "Superadmin",
     University = "University",
-    User = "User"
+    User = "User",
 }

@@ -12,3 +12,7 @@ export interface CollegeEntity extends BaseEntity{
     email: string,
     website : string,
 }
+
+export type AddCollegePayload = Omit<CollegeEntity, 'adminId' | 'universityId'>;
+
+export type UpdateCollegePayload = Partial<AddCollegePayload>;

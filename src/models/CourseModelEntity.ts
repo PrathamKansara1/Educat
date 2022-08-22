@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { CourseEntity } from "../type";
-import { ModelName } from "./ModelName";
+import { modelName } from "./modelName";
 
 const CourseModelEntity = new Schema<CourseEntity>({
   adminId: {
@@ -13,7 +13,7 @@ const CourseModelEntity = new Schema<CourseEntity>({
     required: true,
     ref: "Universities",
   },
-  courseName: {
+  name: {
     type: String,
     required: true,
   },
@@ -31,4 +31,4 @@ const CourseModelEntity = new Schema<CourseEntity>({
   },
 });
 
-module.exports = model<CourseEntity>(ModelName.Course, CourseModelEntity);
+export default model<CourseEntity>(modelName.Course, CourseModelEntity);
