@@ -3,16 +3,16 @@ import { CourseEntity } from "../type";
 import { modelName } from "./modelName";
 
 const CourseModelEntity = new Schema<CourseEntity>({
-  adminId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "SuperAdmins",
-  },
-  universityId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Universities",
-  },
+  // adminId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "SuperAdmins",
+  // },
+  // universityId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "Universities",
+  // },
   name: {
     type: String,
     required: true,

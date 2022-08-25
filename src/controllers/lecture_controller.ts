@@ -7,9 +7,11 @@ import { addData, deleteData, readAllData, readData, readDataById, updateData } 
 // Add Lecture
 export const addLecture = async (req: Request, res: Response) => {
     try {
+      const User = false;
       const addLecture = await addData<addLecturePayload>(
         req.body,
-        LectureModelEntity
+        LectureModelEntity,
+        User
       );
   
       if (

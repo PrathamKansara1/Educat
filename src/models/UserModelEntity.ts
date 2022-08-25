@@ -31,7 +31,7 @@ const UserModelEntity = new Schema<UserEntity>({
         required : true
     },
     dateOfBirth : {
-        type: Date,
+        type: String,
         required : true
     }
 

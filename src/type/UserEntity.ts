@@ -3,8 +3,12 @@ export interface UserEntity {
   name: string;
   email: string;
   password: string;
-  avatar?: string;
+  avatar: string;
   phone: string;
   address: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
 }
+
+export type AddUserPayload = Omit<UserEntity, 'adminId'>;
+
+export type updateUserPayload = Partial<AddUserPayload>;

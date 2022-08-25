@@ -1,1 +1,7 @@
 export {default as CollegeRoutes} from './collegeRoute'
+export {default as CourseRoutes} from './courseRoute'
+export {default as FacultyRoutes} from './facultyRoute'
+export {default as LectureRoutes} from './lectureRoute'
+export {default as StudentRoutes} from './studentRoute'
+export {default as UniversityRoutes} from './universityRoute'
+export {default as AdminRoutes} from './adminRoute'

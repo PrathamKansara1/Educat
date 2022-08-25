@@ -4,7 +4,7 @@ import { BaseEntity } from "./BaseEntity";
 export interface CollegeEntity extends BaseEntity{
     adminId: Types.ObjectId;
     universityId : Types.ObjectId,
-    collegeName: string;
+    name: string;
     capacityStudent : number,
     currentStudents : number,
     courses: [],

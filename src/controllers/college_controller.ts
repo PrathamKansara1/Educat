@@ -26,9 +26,11 @@ import {
 // Add College
 export const addCollege = async (req: Request, res: Response) => {
   try {
+    const User = false;
     const addCollege = await addData<AddCollegePayload>(
       req.body,
-      CollegeModelEntity
+      CollegeModelEntity,
+      User
     );
 
     if (

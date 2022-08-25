@@ -6,28 +6,20 @@ const FacultyModelEntity = new Schema<FacultyEntity>({
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "Users",
+    ref: "users",
   },
-  universityId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Universities",
-  },
-  collegeId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Colleges",
-  },
-  email: {
-    type: String,
-    required: true,
-  },
+  // universityId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "Universities",
+  // },
+  // collegeId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "Colleges",
+  // },
   qualification: {
     type: [],
-    required: true,
-  },
-  permanentAddress: {
-    type: String,
     required: true,
   },
   workingBranch: {
@@ -44,10 +36,6 @@ const FacultyModelEntity = new Schema<FacultyEntity>({
   },
   experience: {
     type: String,
-    required: true,
-  },
-  dateOfBirth: {
-    type: Date,
     required: true,
   },
   state: {

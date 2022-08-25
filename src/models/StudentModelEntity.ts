@@ -8,25 +8,21 @@ const StudentModelEntity = new Schema<StudentEntity>({
     required: true,
     ref: "Users",
   },
-  universityId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Universities",
-  },
-  collegeId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Colleges",
-  },
-  courseId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Courses",
-  },
-  email: {
-    type: String,
-    required: true
-  },
+  // universityId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "Universities",
+  // },
+  // collegeId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "Colleges",
+  // },
+  // courseId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "Courses",
+  // },
   fatherName: {
     type: String,
     required: true,
@@ -34,13 +30,6 @@ const StudentModelEntity = new Schema<StudentEntity>({
   motherName: {
     type: String,
     required: true,
-  },
-  permanentAddress: {
-    type: String,
-    required: true,
-  },
-  avatar : {
-    type: String
   },
   enrollmentNumber: {
     type: Number,

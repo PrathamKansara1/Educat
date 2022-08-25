@@ -1,15 +1,19 @@
 import { Request, Response } from "express";
 import { created, creatingFail, deleted, deletingFail, FailureResponse, fetched, fetchingFail, responseStatuscode, SuccessResponse, updated, updatingFail } from "../helper";
 import { FacultyModelEntity } from "../models";
-import { addFacultyPayload, FacultyEntity, UpdateFacultyPayload } from "../type";
+import { AddFacultyPayload, AddUserPayload, FacultyEntity, UpdateFacultyPayload } from "../type";
 import { addData, deleteData, readAllData, readData, readDataById, updateData } from "./base_controller";
+
+interface AddUserFacultyPayload extends AddFacultyPayload,AddUserPayload{}
 
 // Add Faculty
 export const addFaculty = async (req: Request, res: Response) => {
     try {
-      const addFaculty = await addData<addFacultyPayload>(
+      const User = true;
+      const addFaculty = await addData<AddUserFacultyPayload >(
         req.body,
-        FacultyModelEntity
+        FacultyModelEntity,
+        User
       );
   
       if (
@@ -18,7 +22,6 @@ export const addFaculty = async (req: Request, res: Response) => {
       ) {
         return SuccessResponse(created("Faculty"), addFaculty.data, res);
       }
-  
       if (addFaculty.statusCode === responseStatuscode.badRequest) {
         return FailureResponse(
           addFaculty.statusCode,

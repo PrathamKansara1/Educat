@@ -3,16 +3,16 @@ import { UniversityEntity } from "../type";
 import { modelName } from "./modelName";
 
 const UniversityModelEntity = new Schema<UniversityEntity>({
-  adminId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "SuperAdmins",
-  },
+  // adminId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "SuperAdmins",
+  // },
   universityName: {
     type: String,
     required: true,
   },
-  state_: {
+  universityState: {
     type: String,
     required: true,
   },

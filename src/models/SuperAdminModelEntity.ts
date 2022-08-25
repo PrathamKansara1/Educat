@@ -8,11 +8,11 @@ const SuperAdminModelEntity = new Schema<SuperAdminEntity>({
         required: true,
         ref: 'Users'
     },
-    universityId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'Universities'
-    },
+    // universityId: {
+    //     type: Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: 'Universities'
+    // },
     designation : {
         type: String,
         required : true

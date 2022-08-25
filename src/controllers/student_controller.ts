@@ -1,15 +1,19 @@
 import { Response,Request } from "express";
 import { created, creatingFail, deleted, deletingFail, FailureResponse, fetched, fetchingFail, responseStatuscode, SuccessResponse, updated, updatingFail } from "../helper";
 import { StudentModelEntity } from "../models";
-import { AddStudentPayload, CollegeEntity, StudentEntity, UpdateStudentPayload } from "../type";
+import { AddStudentPayload, AddUserPayload, StudentEntity, UpdateStudentPayload } from "../type";
 import { addData, deleteData, readAllData, readData, readDataById, updateData } from "./base_controller";
+
+interface AddUserStudentPayload extends AddStudentPayload,AddUserPayload{}
 
 // Add Student
 export const addStudent = async (req: Request, res: Response) => {
     try {
-      const addStudent = await addData<AddStudentPayload>(
+      const User = true;
+      const addStudent = await addData<AddUserStudentPayload>(
         req.body,
-        StudentModelEntity
+        StudentModelEntity,
+        User
       );
   
       if (
@@ -35,8 +39,8 @@ export const addStudent = async (req: Request, res: Response) => {
     }
   };
   
-  // Get College
-  export const getCollege = async (req: Request, res: Response) => {
+  // Get Student
+  export const getStudent = async (req: Request, res: Response) => {
     try {
       const studentData = await readData<StudentEntity>(req.params.id, StudentModelEntity);
   
@@ -154,7 +158,7 @@ export const addStudent = async (req: Request, res: Response) => {
   // Delete Student
   export const deleteStudent = async (req: Request, res: Response) => {
     try {
-      const deleteStudent = await deleteData<CollegeEntity>(req.params.id, StudentModelEntity);
+      const deleteStudent = await deleteData<StudentEntity>(req.params.id, StudentModelEntity);
   
       if (
         deleteStudent.success &&

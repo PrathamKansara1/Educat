@@ -7,9 +7,11 @@ import { addData, deleteData, readAllData, readData, readDataById, updateData } 
 // Add Course
 export const addCourse = async (req: Request, res: Response) => {
     try {
+      const User = false;
       const addCourse = await addData<AddCoursePayload>(
         req.body,
-        CourseModelEntity
+        CourseModelEntity,
+        User
       );
   
       if (

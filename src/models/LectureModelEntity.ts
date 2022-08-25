@@ -3,39 +3,43 @@ import { LectureEntity } from "../type";
 import { modelName } from "./modelName";
 
 const LectureModelEntity = new Schema<LectureEntity>({
-  collegeId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Colleges",
-  },
-  courseId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Courses",
-  },
-  facultyId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Faculties",
+  // collegeId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "colleges",
+  // },
+  // courseId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "courses",
+  // },
+  // facultyId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "faculties",
+  // },
+  name:{
+    type: String,
+    required:true
   },
   subjectName: {
     type: String,
     required: true,
   },
-  joinStudents: {
-    type: [{ type: Schema.Types.ObjectId, ref:"Students" }],
-    required: true,
-  },
-  enrollStudents: {
-    type: [{ type: Schema.Types.ObjectId, ref: "Students" }],
-    required: true,
-  },
+  // joinStudents: {
+  //   type: [{ type: Schema.Types.ObjectId, ref:"students" }],
+  //   required: true,
+  // },
+  // enrollStudents: {
+  //   type: [{ type: Schema.Types.ObjectId, ref: "students" }],
+  //   required: true,
+  // },
   lectureStartTime: {
-    type: Date,
+    type: String,
     required: true,
   },
   lectureEndTime: {
-    type: Date,
+    type: String,
     required: true,
   },
   reschedule: {
