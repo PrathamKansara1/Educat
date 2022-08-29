@@ -22,32 +22,36 @@ import {
   updated,
   updatingFail,
 } from "../helper";
+import { validateData } from "./validation_controller";
 
-interface AddUserAdminPayload extends AddSuperAdminPayload,AddUserPayload{}
+interface AddUserAdminPayload extends AddSuperAdminPayload, AddUserPayload { }
 
 // Add Admin
 export const addAdmin = async (req: Request, res: Response) => {
   try {
     const User = true;
-    const addAdmin = await addData<AddUserAdminPayload>(
-      req.body,
-      SuperAdminModelEntity,
-      User
-    );
-
-    if (
-      addAdmin.success &&
-      addAdmin.statusCode === responseStatuscode.dataSuccess
-    ) {
-      return SuccessResponse(created("Admin"), addAdmin.data, res);
-    }
-
-    if (addAdmin.statusCode === responseStatuscode.badRequest) {
-      return FailureResponse(
-        addAdmin.statusCode,
-        creatingFail("Admin"),
-        res
+    const validData = validateData(req.body, res);
+    if (validData === true) {
+      const addAdmin = await addData<AddUserAdminPayload>(
+        req.body,
+        SuperAdminModelEntity,
+        User
       );
+
+      if (
+        addAdmin.success &&
+        addAdmin.statusCode === responseStatuscode.dataSuccess
+      ) {
+        return SuccessResponse(created("Admin"), addAdmin.data, res);
+      }
+
+      if (addAdmin.statusCode === responseStatuscode.badRequest) {
+        return FailureResponse(
+          addAdmin.statusCode,
+          creatingFail("Admin"),
+          res
+        );
+      }
     }
   } catch (error) {
     return FailureResponse(
@@ -89,21 +93,24 @@ export const getAdmin = async (req: Request, res: Response) => {
 // Get Specific Admin
 export const getAdmins = async (req: Request, res: Response) => {
   try {
-    const adminData = await readDataById<SuperAdminEntity>(req.body.payload, SuperAdminModelEntity);
+    const validData = validateData(req.body, res);
+    if (validData === true) {
+      const adminData = await readDataById<SuperAdminEntity>(req.body.payload, SuperAdminModelEntity);
 
-    if (
-      adminData.success &&
-      adminData.statusCode === responseStatuscode.success
-    ) {
-      return SuccessResponse(fetched("Admins"), adminData.data, res);
-    }
+      if (
+        adminData.success &&
+        adminData.statusCode === responseStatuscode.success
+      ) {
+        return SuccessResponse(fetched("Admins"), adminData.data, res);
+      }
 
-    if (adminData.statusCode === responseStatuscode.badRequest) {
-      return FailureResponse(
-        adminData.statusCode,
-        fetchingFail("Admins"),
-        res
-      );
+      if (adminData.statusCode === responseStatuscode.badRequest) {
+        return FailureResponse(
+          adminData.statusCode,
+          fetchingFail("Admins"),
+          res
+        );
+      }
     }
   } catch (error) {
     return FailureResponse(
@@ -145,25 +152,28 @@ export const getAllAdmins = async (req: Request, res: Response) => {
 // Update Admin
 export const updateAdmins = async (req: Request, res: Response) => {
   try {
-    const updateAdmin = await updateData<UpdateSuperAdminPayload>(
-      req.body,
-      SuperAdminModelEntity,
-      req.params.id
-    );
-
-    if (
-      updateAdmin.success &&
-      updateAdmin.statusCode === responseStatuscode.dataSuccess
-    ) {
-      return SuccessResponse(updated("Admin"), updateAdmin.data, res);
-    }
-
-    if (updateAdmin.statusCode === responseStatuscode.badRequest) {
-      return FailureResponse(
-        updateAdmin.statusCode,
-        updatingFail("Admin"),
-        res
+    const validData = validateData(req.body, res);
+    if (validData === true) {
+      const updateAdmin = await updateData<UpdateSuperAdminPayload>(
+        req.body,
+        SuperAdminModelEntity,
+        req.params.id
       );
+
+      if (
+        updateAdmin.success &&
+        updateAdmin.statusCode === responseStatuscode.dataSuccess
+      ) {
+        return SuccessResponse(updated("Admin"), updateAdmin.data, res);
+      }
+
+      if (updateAdmin.statusCode === responseStatuscode.badRequest) {
+        return FailureResponse(
+          updateAdmin.statusCode,
+          updatingFail("Admin"),
+          res
+        );
+      }
     }
   } catch (error) {
     return FailureResponse(

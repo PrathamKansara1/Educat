@@ -8,7 +8,7 @@ const UniversityModelEntity = new Schema<UniversityEntity>({
   //   required: true,
   //   ref: "SuperAdmins",
   // },
-  universityName: {
+  name: {
     type: String,
     required: true,
   },

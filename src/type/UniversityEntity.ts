@@ -3,7 +3,7 @@ import { BaseEntity } from "./BaseEntity";
 
 export interface UniversityEntity extends BaseEntity {
   // adminId: Types.ObjectId;
-  universityName: string;
+  name: string;
   universityState: string;
   email: string;
   website: string;
