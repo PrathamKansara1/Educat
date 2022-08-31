@@ -29,3 +29,20 @@ export const FailureResponse = (
     message,
   });
 };
+
+export const SuccessWithCookie = (message: string,
+  data: object | null,
+  token: string,
+  res: Response
+  )=>{
+    const options = {
+      expireIn: '1h',
+      httpOnly: true
+    };
+    return res.status(responseStatuscode.success).cookie("token",token,options).json({
+        success : true,
+        message,
+        user:data,
+        token
+    })
+  }

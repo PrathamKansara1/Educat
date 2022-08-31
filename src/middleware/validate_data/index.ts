@@ -1,159 +1,163 @@
+import { NextFunction, Request, Response } from 'express';
 import Joi from 'joi';
-import { validationMessages } from '../../helper';
+import { FailureResponse, responseStatuscode, validationMessages } from '../../helper';
 const passwordPattern = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 const phonePattern = /^[0-9]{10}$/;
 const addressPattern = /\d{1,}(\s{1}\w{1,})(\s{1}?\w{1,})+/;
 const dobPattern = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/;
 const websitePattern = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/;
 
-export const dataValidate = function (obj: object | null) {
 
-    const schema = Joi.object({
-        name: Joi.string()
-            .max(50)
-            .min(5)
-            .messages(validationMessages("name")),
+const schema = Joi.object({
+    role: Joi.number()
+        .messages(validationMessages("stateCode"))
+        .valid(0, 1, 2),
 
-        email: Joi.string()
-            .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
-            .messages(validationMessages("email")),
+    name: Joi.string()
+        .max(50)
+        .min(5)
+        .messages(validationMessages("name")),
 
-        password: Joi.string()
-            .regex(passwordPattern)
-            .messages(validationMessages("password")),
+    email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+        .messages(validationMessages("email")),
 
-        confirmPassword: Joi.ref('password'),
+    password: Joi.string()
+        .regex(passwordPattern)
+        .messages(validationMessages("password")),
 
-        avatar: Joi.string()
-            .messages(validationMessages("avatar")),
+    confirmPassword: Joi.ref('password'),
 
-        phone: Joi.string()
-            .regex(phonePattern)
-            .messages(validationMessages("phone")),
+    avatar: Joi.string()
+        .messages(validationMessages("avatar")),
 
-        address: Joi.string()
-            .messages(validationMessages("address")),
+    phone: Joi.string()
+        .regex(phonePattern)
+        .messages(validationMessages("phone")),
 
-        dateOfBirth: Joi.string()
-            .messages(validationMessages("DOB"))
-            .regex(dobPattern),
+    address: Joi.string()
+        .messages(validationMessages("address")),
 
-        capacityStudent: Joi.number()
-            .positive()
-            .messages(validationMessages('capacity of student')),
+    dateOfBirth: Joi.string()
+        .messages(validationMessages("DOB"))
+        .regex(dobPattern),
 
-        currentStudents: Joi.number()
-            .positive()
-            .messages(validationMessages("current students"))
-            .less(Joi.ref('capacityStudent')),
+    capacityStudent: Joi.number()
+        .positive()
+        .messages(validationMessages('capacity of student')),
 
-        courses: Joi.array()
-            .messages(validationMessages("courses")),
+    currentStudents: Joi.number()
+        .positive()
+        .messages(validationMessages("current students"))
+        .less(Joi.ref('capacityStudent')),
 
-        city: Joi.string()
-            .messages(validationMessages("city")),
+    courses: Joi.array()
+        .messages(validationMessages("courses")),
 
-        website: Joi.string()
-            .messages(validationMessages("website"))
-            .regex(websitePattern),
+    city: Joi.string()
+        .messages(validationMessages("city")),
 
-        state: Joi.number()
-            .messages(validationMessages("state"))
-            .valid(1, 2, 3),
+    website: Joi.string()
+        .messages(validationMessages("website"))
+        .regex(websitePattern),
 
-        stateCode: Joi.number()
-            .messages(validationMessages("stateCode"))
-            .valid(1, 2, 3, 4, 5),
+    state: Joi.number()
+        .messages(validationMessages("state"))
+        .valid(1, 2, 3),
 
-        stream: Joi.array()
-            .min(2)
-            .messages(validationMessages("stream")),
+    stateCode: Joi.number()
+        .messages(validationMessages("stateCode"))
+        .valid(1, 2, 3, 4, 5),
 
-        qualification: Joi.array()
-            .min(2)
-            .messages(validationMessages("qualification")),
+    stream: Joi.array()
+        .min(2)
+        .messages(validationMessages("stream")),
 
-        workingBranch: Joi.array()
-            .messages(validationMessages("workingBranch")),
+    qualification: Joi.array()
+        .min(2)
+        .messages(validationMessages("qualification")),
 
-        workingCourse: Joi.array()
-            .messages(validationMessages("workingCourse")),
+    workingBranch: Joi.array()
+        .messages(validationMessages("workingBranch")),
 
-        subjects: Joi.array()
-            .min(2)
-            .messages(validationMessages("subjects")),
+    workingCourse: Joi.array()
+        .messages(validationMessages("workingCourse")),
 
-        experience: Joi.number()
-            .messages(validationMessages("experience")),
+    subjects: Joi.array()
+        .min(2)
+        .messages(validationMessages("subjects")),
 
-        subjectName: Joi.string()
-            .min(1)
-            .max(50)
-            .messages(validationMessages("subject name")),
+    experience: Joi.number()
+        .messages(validationMessages("experience")),
 
-        // lectureStartTime: Joi.date()
-        //     .timestamp()
-        //     .messages(validationMessages("Lecture Start Time"))
-        //     .required(),
+    subjectName: Joi.string()
+        .min(1)
+        .max(50)
+        .messages(validationMessages("subject name")),
 
-        // lectureEndTime: Joi.date()
-        //     .timestamp()
-        //     .greater(Joi.ref('lectureStartTime'))
-        //     .messages(validationMessages("Lecture End Time"))
-        //     .required(),
+    // lectureStartTime: Joi.date()
+    //     .timestamp()
+    //     .messages(validationMessages("Lecture Start Time"))
+    //     .required(),
 
-        reschedule: Joi.boolean()
-            .messages(validationMessages("reschedule")),
+    // lectureEndTime: Joi.date()
+    //     .timestamp()
+    //     .greater(Joi.ref('lectureStartTime'))
+    //     .messages(validationMessages("Lecture End Time"))
+    //     .required(),
 
-        fatherName: Joi.string()
-            .min(1)
-            .max(50)
-            .messages(validationMessages("father name")),
+    reschedule: Joi.boolean()
+        .messages(validationMessages("reschedule")),
 
-        motherName: Joi.string()
-            .min(1)
-            .max(50)
-            .messages(validationMessages("mother name")),
+    fatherName: Joi.string()
+        .min(1)
+        .max(50)
+        .messages(validationMessages("father name")),
 
-        enrollmentNumber: Joi.number()
-            .messages(validationMessages("Enrollment Number")),
+    motherName: Joi.string()
+        .min(1)
+        .max(50)
+        .messages(validationMessages("mother name")),
 
-        currentStream: Joi.string()
-            .messages(validationMessages("Current Stream")),
+    enrollmentNumber: Joi.number()
+        .messages(validationMessages("Enrollment Number")),
 
-        currentSemester: Joi.number()
-            .max(8)
-            .messages(validationMessages("Current Semester")),
+    currentStream: Joi.string()
+        .messages(validationMessages("Current Stream")),
 
-        previousDetail: Joi.object()
-            .messages(validationMessages("Previous Detail")),
+    currentSemester: Joi.number()
+        .max(8)
+        .messages(validationMessages("Current Semester")),
 
-        designation: Joi.string()
-            .max(15),
+    previousDetail: Joi.object()
+        .messages(validationMessages("Previous Detail")),
 
-        universityState: Joi.string()
-            .messages(validationMessages("University State"))
-            .max(15),
+    designation: Joi.string()
+        .max(15),
 
-        colleges: Joi.array()
-            .messages(validationMessages("colleges")),
+    universityState: Joi.string()
+        .messages(validationMessages("University State"))
+        .max(15),
 
-        payload: Joi.array()
-            .messages(validationMessages("payload")),
+    colleges: Joi.array()
+        .messages(validationMessages("colleges")),
 
-    }).with('password', 'confirmPassword')
-        .with('capacityStudent', 'currentStudents')
-        .with('lectureStartTime', 'lectureEndTime')
+    payload: Joi.array()
+        .messages(validationMessages("payload")),
+
+}).with('password', 'confirmPassword')
+    .with('capacityStudent', 'currentStudents')
+    .with('lectureStartTime', 'lectureEndTime')
 
 
+
+
+export const validateData = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const value = schema.validate(obj);
-        return value.error?.details[0].message
-
+        const { error } = schema.validate(req.body);
+        if (error?.details === undefined) next();
+        else FailureResponse(responseStatuscode.internalServerError, error?.details[0].message, res);
     } catch (error) {
-        console.log(error);
-
+        FailureResponse(responseStatuscode.badRequest, (error as Error).message, res)
     }
-
 }
-

@@ -1,6 +1,8 @@
 import { Schema, model } from "mongoose";
 import { UserEntity } from "../type";
 import { modelName } from "./modelName";
+import jwt from 'jsonwebtoken'
+import { config } from "../config";
 
 const UserModelEntity = new Schema<UserEntity>({
     role: {
@@ -36,5 +38,9 @@ const UserModelEntity = new Schema<UserEntity>({
     }
 
 })
+
+UserModelEntity.methods.getJwtToken = function() {
+    return jwt.sign({id:this._id} , config.jwtSecretKey as string, {expiresIn: config.jwtExpiresIn});
+}
 
 export default model<UserEntity>(modelName.User,UserModelEntity);

@@ -2,7 +2,6 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import { connectMongoDb } from "./src/db";
-import { dataValidate } from "./src/middleware/validate_data";
 
 dotenv.config();
 connectMongoDb();

@@ -1,6 +1,8 @@
 import { Schema, model } from "mongoose";
 import { FacultyEntity } from "../type";
 import { modelName } from "./modelName";
+import jwt from 'jsonwebtoken'
+import { config } from "../config";
 
 const FacultyModelEntity = new Schema<FacultyEntity>({
   userId: {
@@ -47,5 +49,9 @@ const FacultyModelEntity = new Schema<FacultyEntity>({
     required: true,
   },
 });
+
+FacultyModelEntity.methods.getJwtToken = function () {
+  return jwt.sign({ id: this._id }, config.jwtSecretKey as string, { expiresIn: config.jwtExpiresIn });
+}
 
 export default model<FacultyEntity>(modelName.Faculty, FacultyModelEntity);

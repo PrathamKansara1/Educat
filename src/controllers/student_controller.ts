@@ -1,38 +1,28 @@
 import { Response, Request } from "express";
-import { created, creatingFail, deleted, deletingFail, FailureResponse, fetched, fetchingFail, responseStatuscode, SuccessResponse, updated, updatingFail } from "../helper";
+import { created, creatingFail, deleted, deletingFail, FailureResponse, fetched, fetchingFail, responseStatuscode, SuccessResponse, SuccessWithCookie, updated, updatingFail } from "../helper";
 import { StudentModelEntity } from "../models";
-import { AddStudentPayload, AddUserPayload, StudentEntity, UpdateStudentPayload } from "../type";
-import { addData, deleteData, readAllData, readData, readDataById, updateData } from "./base_controller";
-import { validateData } from "./validation_controller";
-
-interface AddUserStudentPayload extends AddStudentPayload, AddUserPayload { }
+import { StudentEntity, UpdateStudentPayload } from "../type";
+import { deleteData, readAllData, readData, readDataById, updateData } from "./base_controller";
+import { addUser } from "./user_controller";
 
 // Add Student
 export const addStudent = async (req: Request, res: Response) => {
   try {
-    const User = true;
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const addStudent = await addData<AddUserStudentPayload>(
-        req.body,
-        StudentModelEntity,
-        User
+    const addStudent = await addUser(res, req.body, StudentModelEntity);
+
+    if (
+      addStudent.success &&
+      addStudent.statusCode === responseStatuscode.dataSuccess
+    ) {
+      return SuccessWithCookie(created('student'), addStudent.data, addStudent.token, res);
+    }
+
+    if (addStudent.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        addStudent.statusCode,
+        creatingFail("Student"),
+        res
       );
-
-      if (
-        addStudent.success &&
-        addStudent.statusCode === responseStatuscode.dataSuccess
-      ) {
-        return SuccessResponse(created("Student"), addStudent.data, res);
-      }
-
-      if (addStudent.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          addStudent.statusCode,
-          creatingFail("Student"),
-          res
-        );
-      }
     }
   } catch (error) {
     return FailureResponse(
@@ -74,24 +64,21 @@ export const getStudent = async (req: Request, res: Response) => {
 // Get Specific Students
 export const getStudents = async (req: Request, res: Response) => {
   try {
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const studentsData = await readDataById<StudentEntity>(req.body.payload, StudentModelEntity);
+    const studentsData = await readDataById<StudentEntity>(req.body.payload, StudentModelEntity);
 
-      if (
-        studentsData.success &&
-        studentsData.statusCode === responseStatuscode.success
-      ) {
-        return SuccessResponse(fetched("Students"), studentsData.data, res);
-      }
+    if (
+      studentsData.success &&
+      studentsData.statusCode === responseStatuscode.success
+    ) {
+      return SuccessResponse(fetched("Students"), studentsData.data, res);
+    }
 
-      if (studentsData.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          studentsData.statusCode,
-          fetchingFail("Students"),
-          res
-        );
-      }
+    if (studentsData.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        studentsData.statusCode,
+        fetchingFail("Students"),
+        res
+      );
     }
   } catch (error) {
     return FailureResponse(
@@ -133,28 +120,25 @@ export const getAllStudents = async (req: Request, res: Response) => {
 // Update Student
 export const updateStudent = async (req: Request, res: Response) => {
   try {
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const updateStudent = await updateData<UpdateStudentPayload>(
-        req.body,
-        StudentModelEntity,
-        req.params.id
+    const updateStudent = await updateData<UpdateStudentPayload>(
+      req.body,
+      StudentModelEntity,
+      req.params.id
+    );
+
+    if (
+      updateStudent.success &&
+      updateStudent.statusCode === responseStatuscode.dataSuccess
+    ) {
+      return SuccessResponse(updated("Student"), updateStudent.data, res);
+    }
+
+    if (updateStudent.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        updateStudent.statusCode,
+        updatingFail("Student"),
+        res
       );
-
-      if (
-        updateStudent.success &&
-        updateStudent.statusCode === responseStatuscode.dataSuccess
-      ) {
-        return SuccessResponse(updated("Student"), updateStudent.data, res);
-      }
-
-      if (updateStudent.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          updateStudent.statusCode,
-          updatingFail("Student"),
-          res
-        );
-      }
     }
   } catch (error) {
     return FailureResponse(

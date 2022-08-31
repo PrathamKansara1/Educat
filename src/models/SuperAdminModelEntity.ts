@@ -1,6 +1,8 @@
 import { Schema, model } from "mongoose";
 import { SuperAdminEntity } from "../type";
 import { modelName } from "./modelName";
+import jwt from 'jsonwebtoken'
+import { config } from "../config";
 
 const SuperAdminModelEntity = new Schema<SuperAdminEntity>({
     userId: {
@@ -13,19 +15,23 @@ const SuperAdminModelEntity = new Schema<SuperAdminEntity>({
     //     required: true,
     //     ref: 'Universities'
     // },
-    designation : {
+    designation: {
         type: String,
-        required : true
+        required: true
     },
-    state : {
+    state: {
         type: Number,
-        required : true
+        required: true
     },
-    stateCode : {
+    stateCode: {
         type: Number,
-        required : true
+        required: true
     }
 })
 
-export default model<SuperAdminEntity>(modelName.Superadmin,SuperAdminModelEntity);
+SuperAdminModelEntity.methods.getJwtToken = function () {
+    return jwt.sign({ id: this._id }, config.jwtSecretKey as string, { expiresIn: config.jwtExpiresIn });
+}
+
+export default model<SuperAdminEntity>(modelName.Superadmin, SuperAdminModelEntity);
 

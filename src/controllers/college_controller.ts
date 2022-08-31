@@ -22,34 +22,28 @@ import {
   updated,
   updatingFail,
 } from "../helper";
-import { validateData } from "./validation_controller";
 
 // Add College
 export const addCollege = async (req: Request, res: Response) => {
   try {
-    const User = false;
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const addCollege = await addData<AddCollegePayload>(
-        req.body,
-        CollegeModelEntity,
-        User
+    const addCollege = await addData<AddCollegePayload>(
+      req.body,
+      CollegeModelEntity
+    );
+
+    if (
+      addCollege.success &&
+      addCollege.statusCode === responseStatuscode.dataSuccess
+    ) {
+      return SuccessResponse(created("College"), addCollege.data, res);
+    }
+
+    if (addCollege.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        addCollege.statusCode,
+        creatingFail("College"),
+        res
       );
-
-      if (
-        addCollege.success &&
-        addCollege.statusCode === responseStatuscode.dataSuccess
-      ) {
-        return SuccessResponse(created("College"), addCollege.data, res);
-      }
-
-      if (addCollege.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          addCollege.statusCode,
-          creatingFail("College"),
-          res
-        );
-      }
     }
   } catch (error) {
     return FailureResponse(
@@ -91,24 +85,21 @@ export const getCollege = async (req: Request, res: Response) => {
 // Get Specific Colleges
 export const getColleges = async (req: Request, res: Response) => {
   try {
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const collegesData = await readDataById<CollegeEntity>(req.body.payload, CollegeModelEntity);
+    const collegesData = await readDataById<CollegeEntity>(req.body.payload, CollegeModelEntity);
 
-      if (
-        collegesData.success &&
-        collegesData.statusCode === responseStatuscode.success
-      ) {
-        return SuccessResponse(fetched("Colleges"), collegesData.data, res);
-      }
+    if (
+      collegesData.success &&
+      collegesData.statusCode === responseStatuscode.success
+    ) {
+      return SuccessResponse(fetched("Colleges"), collegesData.data, res);
+    }
 
-      if (collegesData.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          collegesData.statusCode,
-          fetchingFail("Colleges"),
-          res
-        );
-      }
+    if (collegesData.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        collegesData.statusCode,
+        fetchingFail("Colleges"),
+        res
+      );
     }
   } catch (error) {
     return FailureResponse(
@@ -150,28 +141,25 @@ export const getAllColleges = async (req: Request, res: Response) => {
 // Update College
 export const updateCollege = async (req: Request, res: Response) => {
   try {
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const updateCollege = await updateData<UpdateCollegePayload>(
-        req.body,
-        CollegeModelEntity,
-        req.params.id
+    const updateCollege = await updateData<UpdateCollegePayload>(
+      req.body,
+      CollegeModelEntity,
+      req.params.id
+    );
+
+    if (
+      updateCollege.success &&
+      updateCollege.statusCode === responseStatuscode.dataSuccess
+    ) {
+      return SuccessResponse(updated("College"), updateCollege.data, res);
+    }
+
+    if (updateCollege.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        updateCollege.statusCode,
+        updatingFail("College"),
+        res
       );
-
-      if (
-        updateCollege.success &&
-        updateCollege.statusCode === responseStatuscode.dataSuccess
-      ) {
-        return SuccessResponse(updated("College"), updateCollege.data, res);
-      }
-
-      if (updateCollege.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          updateCollege.statusCode,
-          updatingFail("College"),
-          res
-        );
-      }
     }
   } catch (error) {
     return FailureResponse(

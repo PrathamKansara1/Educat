@@ -3,34 +3,30 @@ import { created, creatingFail, deleted, deletingFail, FailureResponse, fetched,
 import { UniversityModelEntity } from "../models";
 import { AddUniversityPayload, UniversityEntity, updateUniversityPayload } from "../type";
 import { addData, deleteData, readAllData, readData, readDataById, updateData } from "./base_controller";
-import { validateData } from "./validation_controller";
 
 // Add University
 export const addUniversity = async (req: Request, res: Response) => {
   try {
-    const User = false
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const addUniversity = await addData<AddUniversityPayload>(
-        req.body,
-        UniversityModelEntity,
-        User
-      );
-      if (
-        addUniversity.success &&
-        addUniversity.statusCode === responseStatuscode.dataSuccess
-      ) {
-        return SuccessResponse(created("University"), addUniversity.data, res);
-      }
 
-      if (addUniversity.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          addUniversity.statusCode,
-          creatingFail("University"),
-          res
-        );
-      }
+    const addUniversity = await addData<AddUniversityPayload>(
+      req.body,
+      UniversityModelEntity
+    );
+    if (
+      addUniversity.success &&
+      addUniversity.statusCode === responseStatuscode.dataSuccess
+    ) {
+      return SuccessResponse(created("University"), addUniversity.data, res);
     }
+
+    if (addUniversity.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        addUniversity.statusCode,
+        creatingFail("University"),
+        res
+      );
+    }
+
   } catch (error) {
     return FailureResponse(
       responseStatuscode.badRequest,
@@ -71,25 +67,24 @@ export const getUniversity = async (req: Request, res: Response) => {
 // Get Specific University
 export const getUniversities = async (req: Request, res: Response) => {
   try {
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const universityData = await readDataById<UniversityEntity>(req.body.payload, UniversityModelEntity);
 
-      if (
-        universityData.success &&
-        universityData.statusCode === responseStatuscode.success
-      ) {
-        return SuccessResponse(fetched("Universities"), universityData.data, res);
-      }
+    const universityData = await readDataById<UniversityEntity>(req.body.payload, UniversityModelEntity);
 
-      if (universityData.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          universityData.statusCode,
-          fetchingFail("Universities"),
-          res
-        );
-      }
+    if (
+      universityData.success &&
+      universityData.statusCode === responseStatuscode.success
+    ) {
+      return SuccessResponse(fetched("Universities"), universityData.data, res);
     }
+
+    if (universityData.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        universityData.statusCode,
+        fetchingFail("Universities"),
+        res
+      );
+    }
+
   } catch (error) {
     return FailureResponse(
       responseStatuscode.badRequest,
@@ -130,28 +125,26 @@ export const getAllUniversity = async (req: Request, res: Response) => {
 // Update University
 export const updateUniversity = async (req: Request, res: Response) => {
   try {
-    const validData = validateData(req.body, res);
-    if (validData === true) {
-      const updateUniversity = await updateData<updateUniversityPayload>(
-        req.body,
-        UniversityModelEntity,
-        req.params.id
+
+    const updateUniversity = await updateData<updateUniversityPayload>(
+      req.body,
+      UniversityModelEntity,
+      req.params.id
+    );
+
+    if (
+      updateUniversity.success &&
+      updateUniversity.statusCode === responseStatuscode.dataSuccess
+    ) {
+      return SuccessResponse(updated("University"), updateUniversity.data, res);
+    }
+
+    if (updateUniversity.statusCode === responseStatuscode.badRequest) {
+      return FailureResponse(
+        updateUniversity.statusCode,
+        updatingFail("University"),
+        res
       );
-
-      if (
-        updateUniversity.success &&
-        updateUniversity.statusCode === responseStatuscode.dataSuccess
-      ) {
-        return SuccessResponse(updated("University"), updateUniversity.data, res);
-      }
-
-      if (updateUniversity.statusCode === responseStatuscode.badRequest) {
-        return FailureResponse(
-          updateUniversity.statusCode,
-          updatingFail("University"),
-          res
-        );
-      }
     }
   } catch (error) {
     return FailureResponse(
